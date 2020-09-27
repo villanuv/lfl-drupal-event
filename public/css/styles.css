@@ -1,0 +1,51 @@
+body {
+	background-color: #1A473D;
+	font-family: Arial, Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #333;
+}
+
+.container {
+	width: 800px;
+	margin: 0 auto;
+	padding: 50px 0 75px;
+	background-color: #fff;
+	text-align: center;
+}
+
+h1 {
+	width: 650px;
+	text-align: center;
+	margin: 0 auto;
+	padding: 15px 0;
+	background-color: #D4EDDA;
+	font-family: "Times New Roman", "Times", serif;
+	font-weight: bold;
+	color: #3c6c63;
+}
+
+textarea {
+	width: 650px;
+	border: 2px solid #008080;
+	color: #008080;
+}
+
+textarea:focus {
+	outline: none;
+}
+
+input, button {
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: #008080;
+    border: none;
+    padding: 15px 30px;
+    margin-top: 20px;
+}
+
+input:hover, button:hover {
+	background-color: #1A473D;
+}
