@@ -2,17 +2,34 @@
 # https://www.npmjs.com/package/@renderinc/heroku-import
 # Schema documented at https://render.com/docs/yaml-spec
 services:
-  - type: web # valid values: https://render.com/docs/yaml-spec#type
-    name: secret-wave-89961
-    env: docker # valid values: https://render.com/docs/yaml-spec#environment
-    dockerfilePath: Dockerfile.render
-    plan: free # optional; defaults to starter
-    numInstances: 1
-    domains: # custom domains
-      - 'lfl-event-helper.villanuv.com'
+  # Let's create our background worker
+  # based off example script
+  - type: worker
+    name: sidekiq-worker
+    env: ruby
+    buildCommand: bundle install
+    # startCommand: bundle exec sidekiq -r ./app.rb
+    autoDeploy: false
     envVars:
       - key: LANG # Imported from Heroku app
         value: en_US.UTF-8
       - key: RACK_ENV # Imported from Heroku app
         value: production
 
+  # Create the web server hosting sinatra
+  - type: web
+    name: sinatra-web
+    env: ruby
+    name: secret-wave-89961
+    plan: free # optional; defaults to starter
+    numInstances: 1
+    domains: # custom domains
+      - 'lfl-event-helper.villanuv.com'
+    buildCommand: bundle install
+    startCommand: bundle exec ruby app.rb
+    autoDeploy: false
+    envVars:
+      - key: LANG # Imported from Heroku app
+        value: en_US.UTF-8
+      - key: RACK_ENV # Imported from Heroku app
+        value: production
