@@ -1,5 +1,6 @@
+require 'rubygems'
 require 'sinatra'
-require "sinatra/reloader" if development?
+require 'bundler/setup'
 
 get '/' do
 	erb :index
