@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/styles.css">
+	<script>
+		function selectText() {
+		  var copyText = document.getElementById("zoomtext");
+		  copyText.select();
+		  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+		  return false;
+		}
+		window.onload = selectText;		
+	</script>
+	<title>LFL Event Helper</title>
+</head>
+<body>
+	<div class="container">
+		<h1>LFL Event Helper</h1>
+		<p>Paste Zoom <strong>Meeting Invitation</strong> below</p>
+
+		<form method="POST" action="/">
+			<section>
+				<textarea name="zoomtext" cols="80" rows="25" id="zoomtext">text goes here</textarea>
+			</section>
+
+			<section>
+				<input type="submit" value="Convert Zoom Text">
+			</section>
+		</form>
+	</div>
+</body>
+</html>
