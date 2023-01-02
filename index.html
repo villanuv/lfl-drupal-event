@@ -2,29 +2,61 @@
 <html>
 <head>
 	<link rel="stylesheet" href="css/styles.css">
+	<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 	<script>
 		function selectText() {
-		  var copyText = document.getElementById("zoomtext");
+		  var copyText = $("#zoomtext");
 		  copyText.select();
-		  copyText.setSelectionRange(0, 99999); /*For mobile devices*/
 		  return false;
 		}
-		window.onload = selectText;		
+
+		$(document).ready(function(){
+			$("form").submit(function(e) {
+			    e.preventDefault();
+				var textToChange = $("#zoomtext").val().replace(/\n/g,' ');
+
+				var codeExp = /(?<=Passcode: ).*?(?=$)/;
+				var urlExp  = /https(.+)?pwd/;
+				var mtgExp  = /(?<=Meeting ID: ).*Passcode/;
+
+				var passcode = textToChange.match(codeExp)[0].split(" ")[0];
+				var url = textToChange.match(urlExp)[0].replace("?pwd", "");
+				var mtg = textToChange.match(mtgExp)[0].replace(" Passcode", "");
+
+				var newText = "*** HOW TO JOIN VIRTUAL EVENT *** A few minutes before the event start time, you can join the event online or by phone *** *** *** To join ONLINE, go to " + url + " *** *** *** OR Launch the Zoom app and enter Meeting ID: " + mtg + " and Passcode: " + passcode + " *** *** *** To join by PHONE from a Chicago location, call +1 312 626 6799 and enter Meeting ID: " + mtg + " *** *** *** If you have issues joining, tips and help are available at https://www.lakeforestlibrary.org/join *** *** *** *** *** THIS MESSAGE IS SENT FROM AN UNATTENDED MAILBOX. PLEASE DO NOT HIT REPLY. If you have questions or need to contact us about your event registration, please email reference@lakeforestlibrary.org.";
+
+				$("#convText").hide();
+				$("#copyBtn").show();
+				$("#zoomtext").val(newText);
+				$("#directions").html('Paste this into <strong>Registration Mail Settings</strong>');
+				return false;
+			});
+
+			$("#zoomtext").change(function() {
+				var newText = $("#zoomtext").val();
+				$("#zoomtext").select();
+				// console.log(newText);
+				return false;
+			});
+
+			$("#copyBtn").hide();
+		});
 	</script>
 	<title>LFL Event Helper</title>
 </head>
 <body>
 	<div class="container">
 		<h1>LFL Event Helper</h1>
-		<p>Paste Zoom <strong>Meeting Invitation</strong> below</p>
+		<p id="directions">Paste Zoom <strong>Meeting Invitation</strong> below</p>
 
-		<form method="POST" action="/">
+		<form>
 			<section>
 				<textarea name="zoomtext" cols="80" rows="25" id="zoomtext">text goes here</textarea>
 			</section>
 
 			<section>
-				<input type="submit" value="Convert Zoom Text">
+				<input id="convText" type="submit" value="Convert Zoom Text">
+				<button id="copyBtn" onclick="selectText();return false;">Copy This</button>
 			</section>
 		</form>
 	</div>
